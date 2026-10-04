@@ -1,40 +1,54 @@
-// loads .env file content into process.env by default
+const dns = require("dns");
+
+dns.setServers(["1.1.1.1"]);
+
+// loads dotenv file contents into process env by default
 require('dotenv').config()
+
 const express=require('express')
 const cors=require('cors')
-const router=require('../Routes/routes') 
-require('../dbConnect/db')
-
-// creating server instances
+const router = require('./Routes/route')
+require('./dbConnect/db')
+const jwtmiddleware=require('./Middleware/jwtMiddleware')
+// craeting server instance
 const server=express()
 
 // enabling cors in server
 server.use(cors())
 
-// IMPLEMENTING JSON
+
+// enabling json middleware
 server.use(express.json())
 
-// CONFIGURNG ROUTER
+// configuring router
 server.use(router)
 
-// SETTING UPTO PORT
+
+// setting up a port number
 const port=process.env.PORT
 
+
+// server.use(jwtmiddleware)
+
+
+// start server to listen client request to that port / available server in internet
 server.listen(port,()=>{
-    console.log(`Server Started at ${port} & waiting for client rquest!`)
+    console.log(`Server Started at ${port} & waiting for client requests`)
 })
 
-// resolving api(https://localhost:3000 get rquest using express)
-server.get(`/`,(req,res)=>{
-    res.send("<h1>Server is Running ! waiting for client requests!!</h1>")
+// resolving API (http://localhost:3000 get request) using express
+server.get('/', (req, res) => {
+    res.send("<h1>Server is running ! waiting for client for request</h1>")
 })
-server.post('/addbook',(req,res)=>{
-    res.send('POST HIT')
+
+// resolving API (http://localhost:3000/addbook POST request) using express
+server.post('/addbook', (req, res) => {
+    res.send("POST HIT")
 })
+
 server.get('/getbook',(req,res)=>{
-    res.json({"title":"Goatlife","price":"120","author":"benyamin"}).statusCode(201)
+    res.send("title:Aadujeevitham,price: 500,author: Benyamin").status(201)
 })
-server.delete('/deletebook',(req,res)=>{
-     res.status(200).json({"msg":"Deleted"})
+server.get('/deletebook',(req,res)=>{
+    res.status(200).json({"msg": "Book Deleted"})
 })
-   
