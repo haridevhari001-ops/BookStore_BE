@@ -1,14 +1,11 @@
 const mongoose=require('mongoose')
 
-const connectionString=process.env.CONNECTION_STRING
+const connection_string=process.env.CONNECTION_STRING
 
-
-
-
-
-mongoose.connect(connectionString,).then((res)=>{
-    console.log("server connected with MongoDB Server")
+mongoose.connect(connection_string).
+then(()=>{
+console.log("Server Connected with MongoDB server")
 }).catch((err)=>{
-    console.log("MongoDB Server Connection Failed!")
-    console.log(err)
-})  
+console.log("Mongodb Server Connection Failed!")
+console.log(err)
+})
